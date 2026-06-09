@@ -148,82 +148,12 @@ function buildInvitedGuestFields() {
     extraGuestsBox.appendChild(guestWrapper);
   }
 }
-
 rsvpForm.addEventListener("submit", function(event) {
   event.preventDefault();
 
-  const attending = attendance.value;
-  const selectedGuestCount = attending === "Yes" ? guestCount.value : "0";
-  const notes = document.getElementById("notes") ? document.getElementById("notes").value : "";
+  alert("RSVP submissions are currently disabled.");
 
-  if (!attending) {
-    alert("Please select if you will attend.");
-    return;
-  }
-
-  let invitedGuestsInfo = [];
-
-  if (attending === "Yes") {
-    const invitedGuestNames = document.querySelectorAll(".invitedGuestName");
-    const invitedGuestMeals = document.querySelectorAll(".invitedGuestMeal");
-
-    for (let i = 0; i < invitedGuestNames.length; i++) {
-      const guestNameValue = invitedGuestNames[i].value.trim();
-      const mealChoice = invitedGuestMeals[i] ? invitedGuestMeals[i].value : "";
-
-      if (!guestNameValue) {
-        alert(`Please enter Guest ${i + 1} name.`);
-        return;
-      }
-
-      if (!mealChoice) {
-        alert(`Please select Guest ${i + 1} meal.`);
-        return;
-      }
-
-      invitedGuestsInfo.push(
-        `Guest ${i + 1}: ${guestNameValue} - Meal: ${mealChoice}`
-      );
-    }
-  }
-
-  document.getElementById("guestCodeInput").value = guestKey || "No guest code";
-  document.getElementById("mainGuestInput").value = currentGuest.displayName;
-  document.getElementById("extraGuestsInput").value =
-    invitedGuestsInfo.length > 0 ? invitedGuestsInfo.join(", ") : "Not attending";
-
-  const formData = new FormData(rsvpForm);
-
-  formData.append("guestCode", guestKey || "No guest code");
-  formData.append("invitationName", currentGuest.displayName);
-  formData.append("attendance", attending);
-  formData.append("guestCount", selectedGuestCount);
-  formData.append("guestsAndMeals", invitedGuestsInfo.length > 0 ? invitedGuestsInfo.join(", ") : "Not attending");
-  formData.append("notes", notes);
-  formData.append("submittedAt", new Date().toLocaleString());
-
-  fetch(rsvpForm.action, {
-    method: "POST",
-    body: formData,
-    headers: {
-      "Accept": "application/json"
-    }
-  })
-    .then(response => {
-      if (response.ok) {
-        alert("Thank you! Your RSVP has been saved.");
-        rsvpForm.reset();
-        nameInput.value = currentGuest.displayName;
-        clearInvitedGuestFields();
-        yesOptions.classList.add("hidden");
-        buildGuestCountOptions();
-      } else {
-        alert("Something went wrong. Please try again.");
-      }
-    })
-    .catch(error => {
-      alert("Something went wrong. Please try again.");
-    });
+  return false;
 });
 
 const revealElements = document.querySelectorAll(".reveal");
